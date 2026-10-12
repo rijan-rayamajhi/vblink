@@ -13,6 +13,7 @@ final neon7sConfig = SlotConfig(
       kind: SymbolKind.low,
       label: '10',
       color: 0xFFE07A1F,
+      asset: '$_dir/n7_ten.png',
       pays: [10, 40, 130],
     ),
     SlotSymbol(
@@ -20,6 +21,7 @@ final neon7sConfig = SlotConfig(
       kind: SymbolKind.low,
       label: 'J',
       color: 0xFF2FA84F,
+      asset: '$_dir/n7_j.png',
       pays: [10, 40, 130],
     ),
     SlotSymbol(
@@ -27,6 +29,7 @@ final neon7sConfig = SlotConfig(
       kind: SymbolKind.low,
       label: 'Q',
       color: 0xFF2F6FD6,
+      asset: '$_dir/n7_q.png',
       pays: [10, 55, 155],
     ),
     SlotSymbol(
@@ -34,6 +37,7 @@ final neon7sConfig = SlotConfig(
       kind: SymbolKind.low,
       label: 'K',
       color: 0xFF8E3FD6,
+      asset: '$_dir/n7_k.png',
       pays: [25, 65, 195],
     ),
     SlotSymbol(
@@ -41,6 +45,7 @@ final neon7sConfig = SlotConfig(
       kind: SymbolKind.low,
       label: 'A',
       color: 0xFFE0307A,
+      asset: '$_dir/n7_a.png',
       pays: [25, 75, 260],
     ),
     SlotSymbol(
