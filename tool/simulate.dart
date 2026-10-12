@@ -1,14 +1,15 @@
 // Plays millions of spins and reports the return-to-player and hit rates.
-// Run: dart run tool/simulate.dart [spins]
+// Run: dart run tool/simulate.dart [game_id] [spins]
 // ignore_for_file: avoid_print
 import 'dart:math';
 
-import 'package:vblink/games/gold_rush_express/config.dart';
+import 'package:vblink/games/games.dart';
 import 'package:vblink/games/slot_engine/slot_math.dart';
 
 void main(List<String> args) {
-  final spins = args.isEmpty ? 2000000 : int.parse(args.first);
-  final math = SlotMath(goldRushConfig);
+  final id = args.isEmpty ? 'gold_rush_express' : args.first;
+  final spins = args.length < 2 ? 2000000 : int.parse(args[1]);
+  final math = SlotMath(playableGames[id]!);
   final rng = Random(7);
   const bet = 10000;
 

@@ -8,28 +8,50 @@ import '../../economy/game_jackpots.dart';
 import '../../economy/wallet.dart';
 import '../../features/lobby/widgets/coin_display.dart';
 import '../../features/settings/settings.dart';
-import '../slot_engine/slot_session.dart';
-import '../slot_engine/widgets/slot_reels.dart';
-import '../slot_engine/widgets/spin_button.dart';
-import 'config.dart';
+import 'slot_config.dart';
+import 'slot_session.dart';
+import 'widgets/slot_reels.dart';
+import 'widgets/spin_button.dart';
 
-const _dir = 'assets/images/gold_rush_express';
+/// Gives every widget on the slot screen its game's config.
+class _Scope extends InheritedWidget {
+  const _Scope({required this.config, required super.child});
 
-/// Gold Rush Express slot: framed reels in the middle, bet and win on the
-/// left, SPIN on the right.
-class GoldRushScreen extends ConsumerWidget {
-  const GoldRushScreen({super.key});
+  final SlotConfig config;
+
+  @override
+  bool updateShouldNotify(_Scope old) => old.config != config;
+}
+
+SlotConfig _cfg(BuildContext context) =>
+    context.dependOnInheritedWidgetOfExactType<_Scope>()!.config;
+
+/// Shared slot screen for every game: framed reels in the middle, bet and
+/// win on the left, SPIN on the right. All game differences live in config.
+class SlotScreen extends StatelessWidget {
+  const SlotScreen({super.key, required this.config});
+
+  final SlotConfig config;
+
+  @override
+  Widget build(BuildContext context) =>
+      _Scope(config: config, child: const _SlotBody());
+}
+
+class _SlotBody extends ConsumerWidget {
+  const _SlotBody();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final session = ref.watch(slotSessionProvider(goldRushConfig));
+    final config = _cfg(context);
+    final session = ref.watch(slotSessionProvider(_cfg(context)));
 
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
         children: [
           Image.asset(
-            '$_dir/gre_bg.jpg',
+            config.background,
             fit: BoxFit.cover,
             alignment: const Alignment(0, 0.3),
           ),
@@ -87,7 +109,7 @@ class GoldRushScreen extends ConsumerWidget {
               },
             ),
           ),
-          if (!session.spinning && _isBigWin(session))
+          if (!session.spinning && _isBigWin(config, session))
             _BigWinOverlay(
               key: ValueKey(session.spinId),
               cents: session.lastWinCents,
@@ -98,8 +120,8 @@ class GoldRushScreen extends ConsumerWidget {
     );
   }
 
-  static bool _isBigWin(SlotState s) {
-    final bet = goldRushConfig.betStepsCents[s.betIndex];
+  static bool _isBigWin(SlotConfig config, SlotState s) {
+    final bet = config.betStepsCents[s.betIndex];
     return s.lastJackpotCents > 0 || s.lastWinCents >= bet * 10;
   }
 }
@@ -112,7 +134,7 @@ class _TopStrip extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final jackpot = ref.watch(
-      gameJackpotsProvider.select((m) => m[goldRushConfig.id]!),
+      gameJackpotsProvider.select((m) => m[_cfg(context).id]!),
     );
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -153,12 +175,13 @@ class _TopStrip extends ConsumerWidget {
                 maxHeight: h * 1.45,
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: h * 0.3),
-                  child: Image.asset(
-                    '$_dir/gre_logo.png',
-                    height: h * 1.45,
-                    fit: BoxFit.contain,
-                    semanticLabel: 'Gold Rush Express',
-                  ),
+                  child: _cfg(context).logo == null
+                      ? const SizedBox.shrink()
+                      : Image.asset(
+                          _cfg(context).logo!,
+                          height: h * 1.45,
+                          fit: BoxFit.contain,
+                        ),
                 ),
               ),
             ),
@@ -196,13 +219,10 @@ class _TopStrip extends ConsumerWidget {
 class _ReelArea extends ConsumerWidget {
   const _ReelArea();
 
-  /// Inner window of gre_frame.png as fractions of its size (1536x1024 art).
-  static const window = Rect.fromLTRB(0.104, 0.262, 0.896, 0.793);
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final session = ref.watch(slotSessionProvider(goldRushConfig));
-    final notifier = ref.read(slotSessionProvider(goldRushConfig).notifier);
+    final session = ref.watch(slotSessionProvider(_cfg(context)));
+    final notifier = ref.read(slotSessionProvider(_cfg(context)).notifier);
     final haptics = ref.read(settingsProvider.notifier);
 
     return AspectRatio(
@@ -210,22 +230,29 @@ class _ReelArea extends ConsumerWidget {
       child: LayoutBuilder(
         builder: (context, constraints) {
           final w = constraints.maxWidth, h = constraints.maxHeight;
+          final config = _cfg(context);
+          final f = config.frameWindow;
+          final window = Rect.fromLTRB(f[0], f[1], f[2], f[3]);
           return Stack(
             children: [
-              Positioned.fill(child: Image.asset('$_dir/gre_frame.png')),
+              Positioned.fill(
+                child: config.frame != null
+                    ? Image.asset(config.frame!)
+                    : _FallbackFrame(window: window),
+              ),
               Positioned(
                 left: window.left * w,
                 top: window.top * h,
                 width: window.width * w,
                 height: window.height * h,
                 child: SlotReels(
-                  config: goldRushConfig,
+                  config: _cfg(context),
                   result: session.result,
                   spinId: session.spinId,
                   onReelStop: haptics.tapFeedback,
                   onStopped: () {
                     notifier.reveal();
-                    final s = ref.read(slotSessionProvider(goldRushConfig));
+                    final s = ref.read(slotSessionProvider(_cfg(context)));
                     if (s.lastWinCents > 0 &&
                         ref.read(settingsProvider).vibration) {
                       HapticFeedback.mediumImpact();
@@ -246,10 +273,10 @@ class _BetAndWin extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final session = ref.watch(slotSessionProvider(goldRushConfig));
-    final notifier = ref.read(slotSessionProvider(goldRushConfig).notifier);
+    final session = ref.watch(slotSessionProvider(_cfg(context)));
+    final notifier = ref.read(slotSessionProvider(_cfg(context)).notifier);
     final balance = ref.watch(walletProvider) - session.pendingCents;
-    final steps = goldRushConfig.betStepsCents;
+    final steps = _cfg(context).betStepsCents;
     final locked = session.spinning || session.inFreeSpins;
     final canUp =
         !locked &&
@@ -389,7 +416,7 @@ class _SpinButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final session = ref.watch(slotSessionProvider(goldRushConfig));
+    final session = ref.watch(slotSessionProvider(_cfg(context)));
     return LayoutBuilder(
       builder: (context, constraints) => SpinButton(
         size: constraints.maxWidth.clamp(60.0, 130.0),
@@ -398,7 +425,7 @@ class _SpinButton extends ConsumerWidget {
         onTap: () {
           ref.read(settingsProvider.notifier).tapFeedback();
           final outcome = ref
-              .read(slotSessionProvider(goldRushConfig).notifier)
+              .read(slotSessionProvider(_cfg(context)).notifier)
               .spin();
           if (outcome == SpinOutcome.notEnoughCoins) {
             ScaffoldMessenger.of(context)
@@ -496,6 +523,45 @@ class _BigWinOverlayState extends State<_BigWinOverlay> {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// Simple gold-bordered reel window used until a game's frame art exists.
+class _FallbackFrame extends StatelessWidget {
+  const _FallbackFrame({required this.window});
+
+  final Rect window;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, c) {
+        final pad = c.maxHeight * 0.03;
+        return Stack(
+          children: [
+            Positioned(
+              left: window.left * c.maxWidth - pad,
+              top: window.top * c.maxHeight - pad,
+              width: window.width * c.maxWidth + 2 * pad,
+              height: window.height * c.maxHeight + 2 * pad,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xCC14081F),
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: AppColors.gold, width: 4),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.magenta.withValues(alpha: 0.6),
+                      blurRadius: 18,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -126,4 +126,7 @@ final goldRushConfig = SlotConfig(
   freeSpinMultiplier: 3,
   retriggerSpins: 5,
   betStepsCents: const [2000, 5000, 10000, 20000, 50000, 100000, 200000],
+  background: '$_dir/gre_bg.jpg',
+  frame: '$_dir/gre_frame.png',
+  logo: '$_dir/gre_logo.png',
 );

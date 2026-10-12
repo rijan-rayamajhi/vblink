@@ -39,6 +39,10 @@ class SlotConfig {
     required this.freeSpinMultiplier,
     required this.retriggerSpins,
     required this.betStepsCents,
+    required this.background,
+    this.frame,
+    this.frameWindow = const [0.104, 0.262, 0.896, 0.793],
+    this.logo,
     this.lines = standardLines,
   }) : _byId = {for (final s in symbols) s.id: s};
 
@@ -59,6 +63,14 @@ class SlotConfig {
   final int freeSpinMultiplier;
   final int retriggerSpins;
   final List<int> betStepsCents;
+
+  /// Screen art. [frame] and [logo] are optional until their art exists.
+  final String background;
+  final String? frame;
+
+  /// Reel window inside [frame] as fractions (left, top, right, bottom).
+  final List<double> frameWindow;
+  final String? logo;
 
   final Map<String, SlotSymbol> _byId;
 

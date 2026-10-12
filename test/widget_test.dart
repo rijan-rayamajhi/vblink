@@ -10,7 +10,7 @@ import 'package:vblink/features/lobby/widgets/lobby_background.dart';
 import 'package:vblink/features/lobby/widgets/top_bar.dart';
 import 'package:vblink/core/storage.dart';
 import 'package:vblink/features/lobby/widgets/game_tile.dart';
-import 'package:vblink/games/gold_rush_express/gold_rush_screen.dart';
+import 'package:vblink/games/slot_engine/slot_screen.dart';
 import 'package:vblink/main.dart';
 
 import 'helpers/storage.dart';
@@ -70,12 +70,26 @@ void main() {
     await tester.tap(find.byType(GameTile).first);
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 500));
-    expect(find.byType(GoldRushScreen), findsOneWidget);
+    expect(find.byType(SlotScreen), findsOneWidget);
     expect(tester.takeException(), isNull);
 
     await tester.tap(find.bySemanticsLabel('Back to lobby'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 500));
-    expect(find.byType(GoldRushScreen), findsNothing);
+    expect(find.byType(SlotScreen), findsNothing);
+  });
+
+  testWidgets('Neon 7s opens from its lobby tile', (tester) async {
+    tester.view.physicalSize = const Size(874, 402);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+
+    await tester.pumpWidget(await _app());
+    // Grid order: Neon 7s is the second tile after the featured game.
+    await tester.tap(find.byType(GameTile).at(1));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(find.byType(SlotScreen), findsOneWidget);
+    expect(tester.takeException(), isNull);
   });
 }

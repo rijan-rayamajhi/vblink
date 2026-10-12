@@ -44,6 +44,7 @@ SlotConfig _config(List<List<String>> strips) => SlotConfig(
   freeSpinMultiplier: 3,
   retriggerSpins: 5,
   betStepsCents: const [2000, 200000],
+  background: '',
 );
 
 /// Builds strips so that stop 0 shows exactly [top, mid, bot] per reel.

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../app/theme.dart';
-import '../../../games/gold_rush_express/gold_rush_screen.dart';
+import '../../../games/games.dart';
+import '../../../games/slot_engine/slot_screen.dart';
 import '../data/games.dart';
 import 'game_tile.dart';
 import 'host_banner.dart';
@@ -11,6 +12,13 @@ class GamesPanel extends StatelessWidget {
   const GamesPanel({super.key});
 
   void _openGame(BuildContext context, GameInfo game) {
+    final config = playableGames[game.id];
+    if (config != null) {
+      Navigator.of(context).push(
+        MaterialPageRoute<void>(builder: (_) => SlotScreen(config: config)),
+      );
+      return;
+    }
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(
@@ -73,11 +81,7 @@ class GamesPanel extends StatelessWidget {
                   height: tileArea,
                   child: GameTile(
                     game: featuredGame,
-                    onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute<void>(
-                        builder: (_) => const GoldRushScreen(),
-                      ),
-                    ),
+                    onTap: () => _openGame(context, featuredGame),
                   ),
                 ),
               ),
