@@ -76,6 +76,7 @@ final goldRushConfig = SlotConfig(
       kind: SymbolKind.high,
       label: '🪙',
       color: 0xFF9A6A00,
+      asset: '$_dir/gre_nugget.png',
       pays: [95, 360, 1200],
     ),
     SlotSymbol(
@@ -91,6 +92,7 @@ final goldRushConfig = SlotConfig(
       kind: SymbolKind.scatter,
       label: '🎫\nFREE',
       color: 0xFF1F8A3A,
+      asset: '$_dir/gre_scatter.png',
     ),
   ],
   strips: [
