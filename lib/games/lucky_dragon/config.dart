@@ -116,5 +116,6 @@ final luckyDragonConfig = SlotConfig(
   betStepsCents: const [2000, 5000, 10000, 20000, 50000, 100000, 200000],
   background: '$_dir/ld_bg.jpg',
   frame: '$_dir/ld_frame.png',
+  logo: '$_dir/ld_logo.png',
   frameWindow: const [0.104, 0.276, 0.896, 0.796],
 );
