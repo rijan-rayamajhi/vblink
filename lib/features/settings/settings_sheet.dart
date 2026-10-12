@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../app/theme.dart';
+import '../../app/widgets/neon_close_button.dart';
 import 'settings.dart';
 
 const appVersion = '1.0.0';
@@ -77,7 +78,7 @@ class _SettingsPanel extends ConsumerWidget {
                         children: [
                           Text('SETTINGS', style: AppText.gold(26)),
                           const Spacer(),
-                          _CloseButton(
+                          NeonCloseButton(
                             onTap: () {
                               notifier.tapFeedback();
                               Navigator.of(context).pop();
@@ -247,35 +248,6 @@ class _AboutBox extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _CloseButton extends StatelessWidget {
-  const _CloseButton({required this.onTap});
-
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return Semantics(
-      button: true,
-      label: 'Close',
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          width: 36,
-          height: 36,
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFFFF6FC8), Color(0xFFB0127A)],
-            ),
-            shape: BoxShape.circle,
-            border: Border.all(color: Colors.white70, width: 1.5),
-          ),
-          child: const Icon(Icons.close_rounded, color: Colors.white, size: 22),
-        ),
       ),
     );
   }

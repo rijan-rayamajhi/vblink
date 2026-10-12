@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../../app/theme.dart';
+import '../../profile/player.dart';
+import '../../profile/profile_sheet.dart';
 import '../../settings/settings_sheet.dart';
 import 'coin_display.dart';
 import 'jackpot_panel.dart';
@@ -71,19 +75,23 @@ class TopBar extends StatelessWidget {
   }
 }
 
-/// Round player portrait.
-class _Avatar extends StatelessWidget {
+/// Round player portrait; tap to open the profile.
+class _Avatar extends ConsumerWidget {
   const _Avatar({required this.size});
 
   final double size;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final asset = ref.watch(playerProvider.select((p) => p.avatarAsset));
     // The art already includes its own glowing gold ring.
-    return Image.asset(
-      'assets/images/avatar_prince.png',
-      width: size,
-      height: size,
+    return Semantics(
+      button: true,
+      label: 'Profile',
+      child: GestureDetector(
+        onTap: () => showProfileSheet(context),
+        child: Image.asset(asset, width: size, height: size),
+      ),
     );
   }
 }

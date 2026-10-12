@@ -36,6 +36,16 @@ class Storage {
   }
 
   void writeBool(String key, bool value) => _prefs.setBool(key, value);
+
+  String readString(String key, String fallback) {
+    try {
+      return _prefs.getString(key) ?? fallback;
+    } catch (_) {
+      return fallback;
+    }
+  }
+
+  void writeString(String key, String value) => _prefs.setString(key, value);
 }
 
 /// Storage keys in one place so they never collide.
@@ -47,4 +57,9 @@ class StorageKeys {
   static const music = 'settings_music';
   static const soundEffects = 'settings_sound_effects';
   static const vibration = 'settings_vibration';
+  static const playerName = 'player_name';
+  static const playerAvatar = 'player_avatar';
+  static const playerLevel = 'player_level';
+  static const totalWonCents = 'stats_total_won_cents';
+  static const totalSpins = 'stats_total_spins';
 }
