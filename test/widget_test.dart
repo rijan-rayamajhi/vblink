@@ -8,7 +8,15 @@ import 'package:vblink/features/lobby/widgets/coin_display.dart';
 import 'package:vblink/features/lobby/widgets/jackpot_panel.dart';
 import 'package:vblink/features/lobby/widgets/lobby_background.dart';
 import 'package:vblink/features/lobby/widgets/top_bar.dart';
+import 'package:vblink/core/storage.dart';
 import 'package:vblink/main.dart';
+
+import 'helpers/storage.dart';
+
+Future<Widget> _app() async => ProviderScope(
+  overrides: [storageProvider.overrideWithValue(await testStorage())],
+  child: const MyApp(),
+);
 
 // Landscape logical sizes: iPhone 18 Pro, small iPhone, iPad Pro 13".
 const _screens = {
@@ -24,7 +32,7 @@ void main() {
       tester.view.devicePixelRatio = 1;
       addTearDown(tester.view.reset);
 
-      await tester.pumpWidget(const ProviderScope(child: MyApp()));
+      await tester.pumpWidget(await _app());
       await tester.pump(const Duration(seconds: 1));
 
       expect(tester.takeException(), isNull);
@@ -36,7 +44,7 @@ void main() {
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
 
-    await tester.pumpWidget(const ProviderScope(child: MyApp()));
+    await tester.pumpWidget(await _app());
     await tester.pump(const Duration(seconds: 1));
 
     expect(find.byType(LobbyScreen), findsOneWidget);

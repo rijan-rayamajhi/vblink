@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app/theme.dart';
+import 'core/storage.dart';
 import 'features/lobby/lobby_screen.dart';
 
 void main() async {
@@ -13,7 +14,15 @@ void main() async {
   ]);
   // Full-screen game feel: hide status and navigation bars.
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-  runApp(const ProviderScope(child: MyApp()));
+  // Load saved progress before the first frame so the lobby never flashes
+  // default values.
+  final storage = await Storage.load();
+  runApp(
+    ProviderScope(
+      overrides: [storageProvider.overrideWithValue(storage)],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
