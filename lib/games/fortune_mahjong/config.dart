@@ -115,4 +115,7 @@ final fortuneMahjongConfig = SlotConfig(
   retriggerSpins: 5,
   betStepsCents: const [2000, 5000, 10000, 20000, 50000, 100000, 200000],
   background: '$_dir/fm_bg.jpg',
+  frame: '$_dir/fm_frame.png',
+  frameWindow: const [0.113, 0.273, 0.887, 0.829],
+  logo: '$_dir/fm_logo.png',
 );
