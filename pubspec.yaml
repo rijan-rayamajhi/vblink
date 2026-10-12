@@ -61,6 +61,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/gold_rush_express/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

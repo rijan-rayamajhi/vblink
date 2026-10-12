@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../app/theme.dart';
+import '../../../games/gold_rush_express/gold_rush_screen.dart';
 import '../data/games.dart';
 import 'game_tile.dart';
 import 'host_banner.dart';
@@ -72,7 +73,11 @@ class GamesPanel extends StatelessWidget {
                   height: tileArea,
                   child: GameTile(
                     game: featuredGame,
-                    onTap: () => _openGame(context, featuredGame),
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => const GoldRushScreen(),
+                      ),
+                    ),
                   ),
                 ),
               ),

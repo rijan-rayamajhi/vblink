@@ -9,6 +9,8 @@ import 'package:vblink/features/lobby/widgets/jackpot_panel.dart';
 import 'package:vblink/features/lobby/widgets/lobby_background.dart';
 import 'package:vblink/features/lobby/widgets/top_bar.dart';
 import 'package:vblink/core/storage.dart';
+import 'package:vblink/features/lobby/widgets/game_tile.dart';
+import 'package:vblink/games/gold_rush_express/gold_rush_screen.dart';
 import 'package:vblink/main.dart';
 
 import 'helpers/storage.dart';
@@ -55,5 +57,25 @@ void main() {
     expect(find.byType(JackpotPanel), findsOneWidget);
     expect(find.text('10,000.00'), findsOneWidget);
     expect(find.text('GRAND JACKPOT'), findsOneWidget);
+  });
+
+  testWidgets('Gold Rush Express opens from the lobby and goes back', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(874, 402);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+
+    await tester.pumpWidget(await _app());
+    await tester.tap(find.byType(GameTile).first);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(find.byType(GoldRushScreen), findsOneWidget);
+    expect(tester.takeException(), isNull);
+
+    await tester.tap(find.bySemanticsLabel('Back to lobby'));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(find.byType(GoldRushScreen), findsNothing);
   });
 }
