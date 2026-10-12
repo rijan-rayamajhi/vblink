@@ -48,6 +48,7 @@ final neon7sConfig = SlotConfig(
       kind: SymbolKind.high,
       label: '🍒',
       color: 0xFF5A0A2A,
+      asset: '$_dir/n7_cherry.png',
       pays: [40, 100, 385],
     ),
     SlotSymbol(
@@ -55,6 +56,7 @@ final neon7sConfig = SlotConfig(
       kind: SymbolKind.high,
       label: 'BAR',
       color: 0xFF6A4A00,
+      asset: '$_dir/n7_bar.png',
       pays: [55, 130, 515],
     ),
     SlotSymbol(
@@ -62,6 +64,7 @@ final neon7sConfig = SlotConfig(
       kind: SymbolKind.high,
       label: '🔔',
       color: 0xFF5A3A0A,
+      asset: '$_dir/n7_bell.png',
       pays: [65, 195, 645],
     ),
     SlotSymbol(
@@ -69,6 +72,7 @@ final neon7sConfig = SlotConfig(
       kind: SymbolKind.high,
       label: '💎',
       color: 0xFF0A2A6A,
+      asset: '$_dir/n7_diamond.png',
       pays: [75, 260, 1030],
     ),
     SlotSymbol(
@@ -76,6 +80,7 @@ final neon7sConfig = SlotConfig(
       kind: SymbolKind.high,
       label: '7',
       color: 0xFFB0122A,
+      asset: '$_dir/n7_seven.png',
       pays: [100, 385, 1290],
     ),
     SlotSymbol(
