@@ -13,6 +13,7 @@ final goldRushConfig = SlotConfig(
       kind: SymbolKind.low,
       label: '10',
       color: 0xFFE07A1F,
+      asset: '$_dir/gre_ten.png',
       pays: [10, 35, 120],
     ),
     SlotSymbol(
@@ -20,6 +21,7 @@ final goldRushConfig = SlotConfig(
       kind: SymbolKind.low,
       label: 'J',
       color: 0xFF2FA84F,
+      asset: '$_dir/gre_j.png',
       pays: [10, 35, 120],
     ),
     SlotSymbol(
@@ -27,6 +29,7 @@ final goldRushConfig = SlotConfig(
       kind: SymbolKind.low,
       label: 'Q',
       color: 0xFF2F6FD6,
+      asset: '$_dir/gre_q.png',
       pays: [10, 50, 145],
     ),
     SlotSymbol(
@@ -34,6 +37,7 @@ final goldRushConfig = SlotConfig(
       kind: SymbolKind.low,
       label: 'K',
       color: 0xFF8E3FD6,
+      asset: '$_dir/gre_k.png',
       pays: [25, 60, 180],
     ),
     SlotSymbol(
@@ -41,6 +45,7 @@ final goldRushConfig = SlotConfig(
       kind: SymbolKind.low,
       label: 'A',
       color: 0xFFD6304A,
+      asset: '$_dir/gre_a.png',
       pays: [25, 70, 240],
     ),
     SlotSymbol(
