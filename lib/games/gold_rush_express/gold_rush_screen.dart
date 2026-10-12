@@ -145,7 +145,22 @@ class _TopStrip extends ConsumerWidget {
             ),
             SizedBox(width: h * 0.3),
             CoinDisplay(height: h * 0.85, hiddenCents: hiddenCents),
-            const Spacer(),
+            // Logo fills the gap between coins and jackpot, slightly taller
+            // than the strip so it reads as the game's title.
+            Expanded(
+              child: OverflowBox(
+                maxHeight: h * 1.45,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: h * 0.3),
+                  child: Image.asset(
+                    '$_dir/gre_logo.png',
+                    height: h * 1.45,
+                    fit: BoxFit.contain,
+                    semanticLabel: 'Gold Rush Express',
+                  ),
+                ),
+              ),
+            ),
             Container(
               height: h * 0.85,
               padding: EdgeInsets.symmetric(horizontal: h * 0.4),
