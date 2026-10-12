@@ -1,4 +1,5 @@
 import 'gold_rush_express/config.dart';
+import 'lucky_dragon/config.dart';
 import 'neon_7s/config.dart';
 import 'slot_engine/slot_config.dart';
 
@@ -6,4 +7,5 @@ import 'slot_engine/slot_config.dart';
 final playableGames = <String, SlotConfig>{
   goldRushConfig.id: goldRushConfig,
   neon7sConfig.id: neon7sConfig,
+  luckyDragonConfig.id: luckyDragonConfig,
 };
