@@ -1,7 +1,6 @@
 // Pure Dart (no Flutter imports) so the math can run in tools and tests.
 import '../slot_engine/slot_config.dart';
 
-// ignore: unused_element, used as art arrives
 const _dir = 'assets/images/fortune_mahjong';
 
 /// Fortune Mahjong: mahjong-tile fortune slot. 5x3, 20 lines, fortune-god
@@ -115,6 +114,5 @@ final fortuneMahjongConfig = SlotConfig(
   freeSpinMultiplier: 3,
   retriggerSpins: 5,
   betStepsCents: const [2000, 5000, 10000, 20000, 50000, 100000, 200000],
-  // Lobby backdrop until the Fortune Mahjong background arrives.
-  background: 'assets/images/lobby_bg.jpg',
+  background: '$_dir/fm_bg.jpg',
 );
