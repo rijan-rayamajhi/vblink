@@ -13,6 +13,7 @@ final luckyDragonConfig = SlotConfig(
       kind: SymbolKind.low,
       label: '10',
       color: 0xFFE07A1F,
+      asset: '$_dir/ld_ten.png',
       pays: [10, 35, 110],
     ),
     SlotSymbol(
@@ -20,6 +21,7 @@ final luckyDragonConfig = SlotConfig(
       kind: SymbolKind.low,
       label: 'J',
       color: 0xFF2FA84F,
+      asset: '$_dir/ld_j.png',
       pays: [10, 35, 110],
     ),
     SlotSymbol(
@@ -27,6 +29,7 @@ final luckyDragonConfig = SlotConfig(
       kind: SymbolKind.low,
       label: 'Q',
       color: 0xFF2F6FD6,
+      asset: '$_dir/ld_q.png',
       pays: [10, 45, 135],
     ),
     SlotSymbol(
@@ -34,6 +37,7 @@ final luckyDragonConfig = SlotConfig(
       kind: SymbolKind.low,
       label: 'K',
       color: 0xFF8E3FD6,
+      asset: '$_dir/ld_k.png',
       pays: [20, 55, 165],
     ),
     SlotSymbol(
@@ -41,6 +45,7 @@ final luckyDragonConfig = SlotConfig(
       kind: SymbolKind.low,
       label: 'A',
       color: 0xFFE0307A,
+      asset: '$_dir/ld_a.png',
       pays: [20, 65, 220],
     ),
     SlotSymbol(
