@@ -64,6 +64,7 @@ flutter:
     - assets/images/gold_rush_express/
     - assets/images/neon_7s/
     - assets/images/lucky_dragon/
+    - assets/images/fortune_mahjong/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
