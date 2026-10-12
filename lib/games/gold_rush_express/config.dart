@@ -48,6 +48,7 @@ final goldRushConfig = SlotConfig(
       kind: SymbolKind.high,
       label: '⛏️',
       color: 0xFF6B4A2E,
+      asset: '$_dir/gre_pickaxe.png',
       pays: [35, 95, 360],
     ),
     SlotSymbol(
