@@ -13,7 +13,12 @@ class SymbolTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final child = symbol.asset != null
-        ? Image.asset(symbol.asset!, fit: BoxFit.contain)
+        // Art has its own padding; scale up so it fills the cell like the
+        // placeholder tiles do.
+        ? Transform.scale(
+            scale: 1.2,
+            child: Image.asset(symbol.asset!, fit: BoxFit.contain),
+          )
         : _Placeholder(symbol: symbol);
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),

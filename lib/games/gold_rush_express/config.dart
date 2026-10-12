@@ -83,6 +83,7 @@ final goldRushConfig = SlotConfig(
       kind: SymbolKind.wild,
       label: '🚂\nWILD',
       color: 0xFFB0122A,
+      asset: '$_dir/gre_wild.png',
       pays: [120, 600, 2400],
     ),
     SlotSymbol(
@@ -115,5 +116,3 @@ final goldRushConfig = SlotConfig(
   retriggerSpins: 5,
   betStepsCents: const [2000, 5000, 10000, 20000, 50000, 100000, 200000],
 );
-
-String? goldRushAsset(String file) => '$_dir/$file';
