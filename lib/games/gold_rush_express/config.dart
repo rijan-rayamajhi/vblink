@@ -69,6 +69,7 @@ final goldRushConfig = SlotConfig(
       kind: SymbolKind.high,
       label: '💎',
       color: 0xFF8A1030,
+      asset: '$_dir/gre_gem.png',
       pays: [70, 240, 960],
     ),
     SlotSymbol(
