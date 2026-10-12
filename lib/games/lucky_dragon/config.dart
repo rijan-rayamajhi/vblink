@@ -1,7 +1,6 @@
 // Pure Dart (no Flutter imports) so the math can run in tools and tests.
 import '../slot_engine/slot_config.dart';
 
-// ignore: unused_element, used as art arrives
 const _dir = 'assets/images/lucky_dragon';
 
 /// Lucky Dragon: Chinese-fortune slot. 5x3, 20 lines, dragon WILD, gold
@@ -115,6 +114,5 @@ final luckyDragonConfig = SlotConfig(
   freeSpinMultiplier: 3,
   retriggerSpins: 5,
   betStepsCents: const [2000, 5000, 10000, 20000, 50000, 100000, 200000],
-  // Lobby backdrop until the Lucky Dragon background arrives.
-  background: 'assets/images/lobby_bg.jpg',
+  background: '$_dir/ld_bg.jpg',
 );
