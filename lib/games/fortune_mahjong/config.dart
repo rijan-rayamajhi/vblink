@@ -83,6 +83,7 @@ final fortuneMahjongConfig = SlotConfig(
       kind: SymbolKind.wild,
       label: '🧧\nWILD',
       color: 0xFFD6127A,
+      asset: '$_dir/fm_wild.png',
       pays: [130, 640, 2570],
     ),
     SlotSymbol(
