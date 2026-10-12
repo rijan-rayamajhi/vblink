@@ -83,6 +83,7 @@ final luckyDragonConfig = SlotConfig(
       kind: SymbolKind.wild,
       label: '🐉\nWILD',
       color: 0xFFD6127A,
+      asset: '$_dir/ld_wild.png',
       pays: [110, 550, 2205],
     ),
     SlotSymbol(
