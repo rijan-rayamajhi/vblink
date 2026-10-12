@@ -18,17 +18,19 @@ class GrandJackpotNotifier extends Notifier<int> {
 
   final _rng = Random();
 
+  /// Tracked outside `state` so the final save on dispose never reads it.
+  late int _current;
+
   @override
   int build() {
     final storage = ref.read(storageProvider);
     final saved = storage.readInt(StorageKeys.grandJackpotCents, seedCents);
-    // Tracked locally so the final save on dispose never reads `state`.
-    var current = max(saved, seedCents);
-    void save() => storage.writeInt(StorageKeys.grandJackpotCents, current);
+    _current = max(saved, seedCents);
+    void save() => storage.writeInt(StorageKeys.grandJackpotCents, _current);
 
     final ticker = Timer.periodic(tick, (_) {
-      current += 1 + _rng.nextInt(250);
-      state = current;
+      _current += 1 + _rng.nextInt(250);
+      state = _current;
     });
     final saver = Timer.periodic(saveEvery, (_) => save());
     ref.onDispose(() {
@@ -37,6 +39,13 @@ class GrandJackpotNotifier extends Notifier<int> {
       save();
     });
 
-    return current;
+    return _current;
+  }
+
+  /// Adds part of a bet to the Grand Jackpot.
+  void contribute(int cents) {
+    if (cents <= 0) return;
+    _current += cents;
+    state = _current;
   }
 }

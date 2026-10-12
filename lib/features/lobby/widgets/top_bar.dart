@@ -62,7 +62,7 @@ class TopBar extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: h * 0.3),
-                  _LevelPlaceholder(height: h * 0.6),
+                  _LevelBadge(height: h * 0.6),
                   SizedBox(width: h * 0.3),
                   _MenuButton(size: h * 0.78),
                 ],
@@ -96,13 +96,14 @@ class _Avatar extends ConsumerWidget {
   }
 }
 
-class _LevelPlaceholder extends StatelessWidget {
-  const _LevelPlaceholder({required this.height});
+class _LevelBadge extends ConsumerWidget {
+  const _LevelBadge({required this.height});
 
   final double height;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final player = ref.watch(playerProvider);
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -112,7 +113,35 @@ class _LevelPlaceholder extends StatelessWidget {
           height: height * 1.4,
         ),
         SizedBox(width: height * 0.15),
-        Text('LV.1', style: AppText.number(height * 0.6)),
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('LV.${player.level}', style: AppText.number(height * 0.6)),
+            SizedBox(height: height * 0.12),
+            // XP progress toward the next level.
+            Container(
+              width: height * 2.2,
+              height: height * 0.16,
+              decoration: BoxDecoration(
+                color: Colors.black45,
+                borderRadius: BorderRadius.circular(height),
+              ),
+              alignment: Alignment.centerLeft,
+              child: FractionallySizedBox(
+                widthFactor: player.levelProgress,
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [AppColors.gold, AppColors.goldDeep],
+                    ),
+                    borderRadius: BorderRadius.circular(height),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }

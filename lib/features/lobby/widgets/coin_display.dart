@@ -8,13 +8,16 @@ import '../../../economy/wallet.dart';
 /// Coin icon overlapping a dark pill with the balance.
 /// The number rolls smoothly to its new value whenever the balance changes.
 class CoinDisplay extends ConsumerWidget {
-  const CoinDisplay({super.key, required this.height});
+  const CoinDisplay({super.key, required this.height, this.hiddenCents = 0});
 
   final double height;
 
+  /// Already in the wallet but not to be shown yet (a win still spinning).
+  final int hiddenCents;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final cents = ref.watch(walletProvider);
+    final cents = ref.watch(walletProvider) - hiddenCents;
     final coinSize = height * 1.05;
 
     return SizedBox(

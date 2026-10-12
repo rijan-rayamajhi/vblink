@@ -62,4 +62,5 @@ class StorageKeys {
   static const playerLevel = 'player_level';
   static const totalWonCents = 'stats_total_won_cents';
   static const totalSpins = 'stats_total_spins';
+  static const playerXp = 'player_xp';
 }

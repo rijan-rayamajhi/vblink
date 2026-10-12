@@ -6,8 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../core/storage.dart';
 import '../features/lobby/data/games.dart';
 
-/// Per-game jackpots in cents, keyed by game id. Each creeps up slowly and
-/// resumes from its saved value after a restart.
+/// Per-game jackpots in cents, keyed by game id. Each creeps up slowly,
+/// grows with every bet, and resumes from its saved value after a restart.
 final gameJackpotsProvider =
     NotifierProvider<GameJackpotsNotifier, Map<String, int>>(
       GameJackpotsNotifier.new,
@@ -19,11 +19,13 @@ class GameJackpotsNotifier extends Notifier<Map<String, int>> {
 
   final _rng = Random();
 
+  /// Tracked outside `state` so the final save on dispose never reads it.
+  late Map<String, int> _current;
+
   @override
   Map<String, int> build() {
     final storage = ref.read(storageProvider);
-    // Tracked locally so the final save on dispose never reads `state`.
-    var current = {
+    _current = {
       for (final g in allGames)
         g.id: max(
           storage.readInt(
@@ -34,17 +36,16 @@ class GameJackpotsNotifier extends Notifier<Map<String, int>> {
         ),
     };
     void save() {
-      for (final MapEntry(:key, :value) in current.entries) {
+      for (final MapEntry(:key, :value) in _current.entries) {
         storage.writeInt(StorageKeys.gameJackpotCents(key), value);
       }
     }
 
     final ticker = Timer.periodic(tick, (_) {
-      current = {
-        for (final MapEntry(:key, :value) in current.entries)
+      _set({
+        for (final MapEntry(:key, :value) in _current.entries)
           key: value + _rng.nextInt(40),
-      };
-      state = current;
+      });
     });
     final saver = Timer.periodic(saveEvery, (_) => save());
     ref.onDispose(() {
@@ -53,6 +54,27 @@ class GameJackpotsNotifier extends Notifier<Map<String, int>> {
       save();
     });
 
-    return current;
+    return _current;
+  }
+
+  void _set(Map<String, int> next) {
+    _current = next;
+    state = next;
+  }
+
+  /// Adds part of a bet to a game's jackpot.
+  void contribute(String gameId, int cents) {
+    if (cents <= 0) return;
+    _set({..._current, gameId: _current[gameId]! + cents});
+  }
+
+  /// Pays out [share] (0..1) of a game's jackpot. A full claim resets it to
+  /// its seed; a partial claim just deducts what was paid.
+  int claim(String gameId, double share) {
+    final value = _current[gameId]!;
+    final paid = (value * share.clamp(0, 1)).round();
+    final seed = allGames.firstWhere((g) => g.id == gameId).jackpotSeedCents;
+    _set({..._current, gameId: max(seed, value - paid)});
+    return paid;
   }
 }
