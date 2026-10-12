@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../app/theme.dart';
+import '../../settings/settings_sheet.dart';
 import 'coin_display.dart';
 import 'jackpot_panel.dart';
 
@@ -118,7 +119,7 @@ class _MenuButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {}, // Settings sheet comes later.
+      onTap: () => showSettingsSheet(context),
       child: Container(
         width: size,
         height: size,

@@ -26,6 +26,16 @@ class Storage {
   }
 
   void writeInt(String key, int value) => _prefs.setInt(key, value);
+
+  bool readBool(String key, bool fallback) {
+    try {
+      return _prefs.getBool(key) ?? fallback;
+    } catch (_) {
+      return fallback;
+    }
+  }
+
+  void writeBool(String key, bool value) => _prefs.setBool(key, value);
 }
 
 /// Storage keys in one place so they never collide.
@@ -34,4 +44,7 @@ class StorageKeys {
   static const grandJackpotCents = 'grand_jackpot_cents';
   static String gameJackpotCents(String gameId) => 'jackpot_$gameId';
   static const taskRewardReadyAtMs = 'task_reward_ready_at_ms';
+  static const music = 'settings_music';
+  static const soundEffects = 'settings_sound_effects';
+  static const vibration = 'settings_vibration';
 }
