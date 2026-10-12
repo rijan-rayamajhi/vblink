@@ -31,21 +31,25 @@ class GoldRushScreen extends StatelessWidget {
               return SafeArea(
                 top: false,
                 bottom: false,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: h * 0.03),
-                  child: Column(
-                    children: [
-                      SizedBox(height: h * 0.03),
-                      SizedBox(height: h * 0.11, child: const _TopStrip()),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: h * 0.03),
-                          child: const Center(child: _ReelArea()),
-                        ),
-                      ),
-                      SizedBox(height: h * 0.16),
-                    ],
-                  ),
+                child: Stack(
+                  children: [
+                    // Frame is big and slightly overlaps the top/bottom
+                    // strips; its art has transparent margins.
+                    Positioned(
+                      top: h * 0.1,
+                      bottom: h * 0.09,
+                      left: 0,
+                      right: 0,
+                      child: const Center(child: _ReelArea()),
+                    ),
+                    Positioned(
+                      top: h * 0.03,
+                      left: h * 0.03,
+                      right: h * 0.03,
+                      height: h * 0.11,
+                      child: const _TopStrip(),
+                    ),
+                  ],
                 ),
               );
             },
@@ -125,38 +129,34 @@ class _TopStrip extends ConsumerWidget {
   }
 }
 
-/// Placeholder 5x3 reel window until the reel frame art and engine land.
+/// Reel frame art with the 5x3 symbol window measured from the image.
 class _ReelArea extends StatelessWidget {
   const _ReelArea();
+
+  /// Inner window of gre_frame.png as fractions of its size (1536x1024 art).
+  static const window = Rect.fromLTRB(0.104, 0.262, 0.896, 0.793);
 
   @override
   Widget build(BuildContext context) {
     return AspectRatio(
-      aspectRatio: 5 / 3,
-      child: Container(
-        decoration: BoxDecoration(
-          color: const Color(0xCC1A0A1E),
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: AppColors.gold, width: 3),
-        ),
-        child: Row(
-          children: [
-            for (var i = 0; i < 5; i++)
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: i == 0
-                        ? null
-                        : Border(
-                            left: BorderSide(
-                              color: AppColors.gold.withValues(alpha: 0.5),
-                            ),
-                          ),
-                  ),
-                ),
+      aspectRatio: 3 / 2,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          final w = constraints.maxWidth, h = constraints.maxHeight;
+          return Stack(
+            children: [
+              Positioned.fill(child: Image.asset('$_dir/gre_frame.png')),
+              // Symbols go here once the engine lands.
+              Positioned(
+                left: window.left * w,
+                top: window.top * h,
+                width: window.width * w,
+                height: window.height * h,
+                child: const SizedBox.expand(),
               ),
-          ],
-        ),
+            ],
+          );
+        },
       ),
     );
   }
