@@ -91,6 +91,7 @@ final luckyDragonConfig = SlotConfig(
       kind: SymbolKind.scatter,
       label: '🔮\nFREE',
       color: 0xFF3A0F7A,
+      asset: '$_dir/ld_scatter.png',
     ),
   ],
   strips: [
