@@ -62,6 +62,7 @@ final goldRushConfig = SlotConfig(
       kind: SymbolKind.high,
       label: '🛒',
       color: 0xFF5A3A2A,
+      asset: '$_dir/gre_cart.png',
       pays: [60, 180, 600],
     ),
     SlotSymbol(
