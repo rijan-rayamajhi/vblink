@@ -10,6 +10,7 @@ import '../../features/lobby/widgets/coin_display.dart';
 import '../../features/settings/settings.dart';
 import '../slot_engine/slot_session.dart';
 import '../slot_engine/widgets/slot_reels.dart';
+import '../slot_engine/widgets/spin_button.dart';
 import 'config.dart';
 
 const _dir = 'assets/images/gold_rush_express';
@@ -382,88 +383,35 @@ class _RoundIconButton extends StatelessWidget {
   }
 }
 
-/// Big round SPIN button; shows the free spins left during the feature.
-class _SpinButton extends ConsumerStatefulWidget {
+/// Code-drawn 2.5D SPIN button; shows free spins left during the feature.
+class _SpinButton extends ConsumerWidget {
   const _SpinButton();
 
   @override
-  ConsumerState<_SpinButton> createState() => _SpinButtonState();
-}
-
-class _SpinButtonState extends ConsumerState<_SpinButton> {
-  bool _pressed = false;
-
-  void _spin() {
-    ref.read(settingsProvider.notifier).tapFeedback();
-    final outcome = ref
-        .read(slotSessionProvider(goldRushConfig).notifier)
-        .spin();
-    if (outcome == SpinOutcome.notEnoughCoins) {
-      ScaffoldMessenger.of(context)
-        ..hideCurrentSnackBar()
-        ..showSnackBar(
-          const SnackBar(
-            content: Text('Not enough coins. Lower your bet.'),
-            duration: Duration(seconds: 2),
-          ),
-        );
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final session = ref.watch(slotSessionProvider(goldRushConfig));
-    final free = session.inFreeSpins;
     return LayoutBuilder(
-      builder: (context, constraints) {
-        final size = constraints.maxWidth.clamp(60.0, 130.0);
-        return Semantics(
-          button: true,
-          label: 'Spin',
-          child: GestureDetector(
-            onTapDown: (_) => setState(() => _pressed = true),
-            onTapUp: (_) => setState(() => _pressed = false),
-            onTapCancel: () => setState(() => _pressed = false),
-            onTap: _spin,
-            child: AnimatedScale(
-              scale: _pressed ? 0.92 : 1,
-              duration: const Duration(milliseconds: 90),
-              child: AnimatedOpacity(
-                opacity: session.spinning ? 0.6 : 1,
-                duration: const Duration(milliseconds: 150),
-                child: Container(
-                  width: size,
-                  height: size,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: RadialGradient(
-                      center: const Alignment(0, -0.4),
-                      colors: free
-                          ? const [Color(0xFFFFE27A), Color(0xFFE09A12)]
-                          : const [Color(0xFF8CFF7A), Color(0xFF15A84A)],
-                    ),
-                    border: Border.all(color: AppColors.gold, width: 5),
-                    boxShadow: [
-                      BoxShadow(
-                        color: (free ? AppColors.gold : const Color(0xFF7CFF6B))
-                            .withValues(alpha: 0.6),
-                        blurRadius: 18,
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Text(
-                      free ? 'FREE\n${session.freeSpinsLeft}' : 'SPIN',
-                      textAlign: TextAlign.center,
-                      style: AppText.label(size * 0.2),
-                    ),
-                  ),
+      builder: (context, constraints) => SpinButton(
+        size: constraints.maxWidth.clamp(60.0, 130.0),
+        spinning: session.spinning,
+        freeSpinsLeft: session.freeSpinsLeft,
+        onTap: () {
+          ref.read(settingsProvider.notifier).tapFeedback();
+          final outcome = ref
+              .read(slotSessionProvider(goldRushConfig).notifier)
+              .spin();
+          if (outcome == SpinOutcome.notEnoughCoins) {
+            ScaffoldMessenger.of(context)
+              ..hideCurrentSnackBar()
+              ..showSnackBar(
+                const SnackBar(
+                  content: Text('Not enough coins. Lower your bet.'),
+                  duration: Duration(seconds: 2),
                 ),
-              ),
-            ),
-          ),
-        );
-      },
+              );
+          }
+        },
+      ),
     );
   }
 }
