@@ -55,6 +55,7 @@ final goldRushConfig = SlotConfig(
       kind: SymbolKind.high,
       label: '🏮',
       color: 0xFF7A3A1A,
+      asset: '$_dir/gre_lantern.png',
       pays: [50, 120, 480],
     ),
     SlotSymbol(
