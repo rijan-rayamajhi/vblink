@@ -101,6 +101,7 @@ final fortuneMahjongConfig = SlotConfig(
       kind: SymbolKind.scatter,
       label: '🀫\nFREE',
       color: 0xFF3A0F7A,
+      asset: '$_dir/fm_scatter.png',
     ),
   ],
   strips: [
