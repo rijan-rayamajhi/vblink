@@ -48,6 +48,7 @@ final fortuneMahjongConfig = SlotConfig(
       kind: SymbolKind.high,
       label: '🀀',
       color: 0xFF5A0A2A,
+      asset: '$_dir/fm_wind.png',
       pays: [40, 100, 385],
     ),
     SlotSymbol(
@@ -55,6 +56,7 @@ final fortuneMahjongConfig = SlotConfig(
       kind: SymbolKind.high,
       label: '萬',
       color: 0xFF6A4A00,
+      asset: '$_dir/fm_characters.png',
       pays: [50, 130, 515],
     ),
     SlotSymbol(
@@ -62,6 +64,7 @@ final fortuneMahjongConfig = SlotConfig(
       kind: SymbolKind.high,
       label: '🀙',
       color: 0xFF5A3A0A,
+      asset: '$_dir/fm_circles.png',
       pays: [65, 190, 640],
     ),
     SlotSymbol(
@@ -69,6 +72,7 @@ final fortuneMahjongConfig = SlotConfig(
       kind: SymbolKind.high,
       label: '🎋',
       color: 0xFF0A2A6A,
+      asset: '$_dir/fm_bamboo.png',
       pays: [75, 255, 1025],
     ),
     SlotSymbol(
@@ -76,6 +80,7 @@ final fortuneMahjongConfig = SlotConfig(
       kind: SymbolKind.high,
       label: '🀄',
       color: 0xFFB0122A,
+      asset: '$_dir/fm_red_dragon.png',
       pays: [100, 385, 1285],
     ),
     SlotSymbol(
