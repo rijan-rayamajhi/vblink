@@ -13,6 +13,7 @@ final fortuneMahjongConfig = SlotConfig(
       kind: SymbolKind.low,
       label: '10',
       color: 0xFFE07A1F,
+      asset: '$_dir/fm_ten.png',
       pays: [10, 40, 130],
     ),
     SlotSymbol(
@@ -20,6 +21,7 @@ final fortuneMahjongConfig = SlotConfig(
       kind: SymbolKind.low,
       label: 'J',
       color: 0xFF2FA84F,
+      asset: '$_dir/fm_j.png',
       pays: [10, 40, 130],
     ),
     SlotSymbol(
@@ -27,6 +29,7 @@ final fortuneMahjongConfig = SlotConfig(
       kind: SymbolKind.low,
       label: 'Q',
       color: 0xFF2F6FD6,
+      asset: '$_dir/fm_q.png',
       pays: [10, 50, 155],
     ),
     SlotSymbol(
@@ -34,6 +37,7 @@ final fortuneMahjongConfig = SlotConfig(
       kind: SymbolKind.low,
       label: 'K',
       color: 0xFF8E3FD6,
+      asset: '$_dir/fm_k.png',
       pays: [25, 65, 190],
     ),
     SlotSymbol(
@@ -41,6 +45,7 @@ final fortuneMahjongConfig = SlotConfig(
       kind: SymbolKind.low,
       label: 'A',
       color: 0xFFE0307A,
+      asset: '$_dir/fm_a.png',
       pays: [25, 75, 255],
     ),
     SlotSymbol(
